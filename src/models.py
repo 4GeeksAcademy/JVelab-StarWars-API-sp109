@@ -25,6 +25,8 @@ class User(db.Model):
             "singup date": self.singup_date,
             "name": self.name,
         }
+    def __str__(self):
+        return self.name
 
     
 class Planet(db.Model):
@@ -47,6 +49,9 @@ class Planet(db.Model):
             "population": self.population,
             "mass": self.mass,
         }
+
+    def __str__(self):
+        return self.name
     
 class Character(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -71,6 +76,8 @@ class Character(db.Model):
             "skin color": self.skin_color,
             "eye color": self.eye_color,
         }
+    def __str__(self):
+        return self.name
     
 class FavoriteCharacter(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
