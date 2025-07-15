@@ -96,6 +96,31 @@ def add_people():
 
     return 'Agregado con exito', 200
 
+@app.route('/people/<int:people_id>', methods=['PUT'])
+def update_people(people_id):
+    new_people = request.get_json()
+    character = db.session.execute(select(Character).where(Character.id == people_id)).scalars().first()
+
+    if new_people is None:
+        return 'El cuerpo debe seguir la siguiente estructura, {"name": nombre, "genre": genero, "race": raza, "skin_color": color de piel, "hair_color": color de pelo, "eye_color": color de ojos}', 400
+    
+    if 'name' in new_people:
+        character.name = new_people['name']
+    if 'genre' in new_people:
+        character.genre = new_people['genre']
+    if 'race' in new_people:
+        character.race = new_people['race']
+    if 'skin_color' in new_people:
+        character.skin_color = new_people['skin_color']
+    if 'hair_color' in new_people:
+        character.hair_color = new_people['hair_color']
+    if 'eye_color' in new_people:
+        character.eye_color = new_people['eye_color']
+ 
+    db.session.commit()
+
+    return 'Modificado con exito el personaje con id ' + str(people_id), 200
+
 @app.route('/planet', methods=['DELETE'])
 def delete_people():
     character_for_delete = request.get_json()
@@ -181,6 +206,31 @@ def add_planets():
     db.session.commit()
 
     return 'Agregado con exito', 200
+
+@app.route('/planet/<int:planet_id>', methods=['PUT'])
+def update_planet(planet_id):
+    new_planet = request.get_json()
+    planet = db.session.execute(select(Planet).where(Planet.id == planet_id)).scalars().first()
+
+    if planet is None:
+        return 'No se encuentra el planeta con la id ' + str(planet_id), 400
+    if new_planet is None:
+        return 'El cuerpo debe seguir la siguiente estructura, {"name": nombre, "climate": clima, "terrain": terreno, "population": poblacion, "mass": gravedad}', 400
+
+    if 'name' in new_planet:
+        planet.name = new_planet['name']
+    if 'climate' in new_planet:
+        planet.climate = new_planet['climate']
+    if 'terrain' in new_planet:
+        planet.terrain = new_planet['terrain']
+    if 'population' in new_planet:
+        planet.population = new_planet['population']
+    if 'mass' in new_planet:
+        planet.mass = new_planet['mass']
+ 
+    db.session.commit()
+
+    return 'Modificado con exito el planeta con id ' + str(planet_id), 200
 
 @app.route('/planet', methods=['DELETE'])
 def delete_planet():
